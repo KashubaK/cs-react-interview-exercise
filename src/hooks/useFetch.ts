@@ -62,6 +62,7 @@ export function useFetch<ResponseType>(url: string, opts: UseFetchOpts = {}): Us
   }, [url, method]);
 
   useEffect(() => {
+    // Don't automatically dispatch the request if the consumer wants to call it by themself
     if (lazy) return;
 
     dispatch();

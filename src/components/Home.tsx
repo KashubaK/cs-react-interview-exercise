@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   Center,
@@ -14,7 +14,7 @@ import {
   InputGroup, // Some Chakra components that might be usefull
   HStack,
   VStack,
-  InputRightAddon,
+  InputRightAddon, FormControl, FormLabel,
 } from '@chakra-ui/react';
 import { Card } from '@components/design/Card';
 import {
@@ -47,7 +47,8 @@ const Home: React.FC = () => {
   //   demo();
   // }, []);
 
-  const { loading, error, data } = useFetch<SearchSchoolDistrictsResponse>(getSearchSchoolDistrictsURL('Peninsula School District'))
+  const [districtName, setDistrictName] = useState('Peninsula School District');
+  const { loading, error, data } = useFetch<SearchSchoolDistrictsResponse>(getSearchSchoolDistrictsURL(districtName), { debounce: 300 });
 
   const districts = data?.features.map(feature => feature.attributes);
   console.log('District example', districts)
@@ -57,30 +58,13 @@ const Home: React.FC = () => {
       <ScaleFade initialScale={0.9} in={true}>
         <Card variant="rounded" borderColor="blue">
           <Heading>School Data Finder</Heading>
-          <Text>
-            How would you utilize React.useEffect with the searchSchoolDistricts and searchSchools functions? <br />
-            Using{' '}
-            <a href="https://chakra-ui.com/docs/principles" target="_blank" rel="noreferrer">
-              Chakra-UI
-            </a>{' '}
-            or your favorite UI toolkit, build an interface that allows the user to: <br />
-            <OrderedList>
-              <ListItem>Search for a district</ListItem>
-              <ListItem>Search for a school within the district (or bypass district filter)</ListItem>
-              <ListItem>View all returned data in an organized way</ListItem>
-            </OrderedList>
-          </Text>
-          <Divider margin={4} />
-          <Text>
-            Check the console for example of returned data. <b>Happy coding!</b>
-            <br />
-            {loading ? <Spinner /> : <></>}
-            <br />
-            {districts?.length} Demo Districts
-            <br />
-            {/*{schoolSearch.length} Demo Schools*/}
-            {/*<br />*/}
-          </Text>
+
+          <FormControl>
+            <FormLabel id="DistrictName">District name</FormLabel>
+            <Input value={districtName} onChange={e => setDistrictName(e.target.value)}  />
+          </FormControl>
+
+          {loading ? <Spinner /> : <>Found {districts?.length} districts</>}
         </Card>
       </ScaleFade>
     </Center>
