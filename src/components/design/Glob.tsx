@@ -2,13 +2,7 @@ import React from 'react';
 import { theme } from '@theme/index';
 import './Glob.scss';
 
-/**
- * Feel free to customize or use this however you like, extra credit: What would you change about this component?
- * @param Glob
- * @returns An interactive globby thing
- */
-
-const Glob: React.FC<{
+type GlobProps = {
   color?: string;
   size?: string[]; //Width / Height
   globSizes?: number[][];
@@ -21,29 +15,37 @@ const Glob: React.FC<{
   speed?: number;
   radius?: string;
   rotate?: number;
-}> = ({
-  children,
-  color = theme.colors.brand.blue,
-  size = ['50%', '50%'],
-  globSizes = [
-    [40, 80],
-    [60, 50],
-    [20, 80],
-  ],
-  globPositions = [
-    [20, 10],
-    [10, 20],
-    [20, 15],
-  ],
-  top,
-  left,
-  right,
-  bottom,
-  opacity = 1,
-  speed,
-  radius,
-  rotate,
-}) => {
+};
+
+/**
+ * Feel free to customize or use this however you like, extra credit: What would you change about this component?
+ * @param props A set of props to customize the Glob
+ * @returns An interactive globby thing
+ */
+function Glob(props: GlobProps): React.ReactElement {
+  const {
+    color = theme.colors.brand.blue,
+    size = ['50%', '50%'],
+    globSizes = [
+      [40, 80],
+      [60, 50],
+      [20, 80],
+    ],
+    globPositions = [
+      [20, 10],
+      [10, 20],
+      [20, 15],
+    ],
+    top,
+    left,
+    right,
+    bottom,
+    opacity = 1,
+    speed,
+    radius,
+    rotate,
+  } = props;
+
   return (
     <>
       <div
@@ -70,7 +72,7 @@ const Glob: React.FC<{
             animation: speed ? `move ${speed * 1200}ms infinite alternate ease-in-out` : undefined,
             borderRadius: radius,
           }}
-        ></div>
+        />
         <div
           className="glob1"
           style={{
@@ -82,7 +84,7 @@ const Glob: React.FC<{
             animation: speed ? `move ${speed * 1000}ms infinite alternate ease-in-out` : undefined,
             borderRadius: radius,
           }}
-        ></div>
+        />
         <div
           className="glob2"
           style={{
@@ -94,7 +96,7 @@ const Glob: React.FC<{
             animation: speed ? `move ${speed * 800}ms infinite alternate ease-in-out` : undefined,
             borderRadius: radius,
           }}
-        ></div>
+        />
       </div>
       <svg className="glob-svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
         <defs>
@@ -111,7 +113,7 @@ const Glob: React.FC<{
             <feColorMatrix
               type="matrix"
               values="0.14453125 0 0 0 0.33203125 0.71875 0 0 0 0.27734375 -0.34765625 0 0 0 0.73046875 0 0 0 1 0"
-            ></feColorMatrix>
+            />
           </filter>
         </defs>
       </svg>
