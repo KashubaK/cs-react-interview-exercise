@@ -2,11 +2,23 @@ import React from 'react';
 import { theme } from '@theme/index';
 import './Glob.scss';
 
+/**
+ * [<width>%, <height>%]
+ */
+type GlobSize = [number, number];
+
+/**
+ * [<top>%, <left>%]
+ *
+ * TODO: Refactor this to be [left, top] instead?
+ */
+type GlobPosition = [number, number];
+
 type GlobProps = {
   color?: string;
-  size?: string[]; //Width / Height
-  globSizes?: number[][];
-  globPositions?: number[][];
+  size?: [string, string];
+  globSizes?: [GlobSize, GlobSize, GlobSize];
+  globPositions?: [GlobPosition, GlobPosition, GlobPosition];
   top?: string;
   bottom?: string;
   left?: string;

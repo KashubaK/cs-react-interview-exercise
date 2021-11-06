@@ -58,6 +58,14 @@ interface NCESDistrictFeature {
   };
 }
 
+export type SearchSchoolDistrictsResponse = {
+  features: NCESDistrictFeature[];
+}
+
+export function getSearchSchoolDistrictsURL(districtName: string): string {
+  return `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICLEA_1516/MapServer/0/query?where=UPPER(NAME) LIKE UPPER('%${districtName}%')&outFields=*&outSR=4326&f=json`;
+}
+
 const searchSchoolDistricts = async (name: string): Promise<NCESDistrictFeatureAttributes[]> => {
   const publicSchoolEndpoint = `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICLEA_1516/MapServer/0/query?where=UPPER(NAME) LIKE UPPER('%${name}%')&outFields=*&outSR=4326&f=json`;
   let combinedData = [];

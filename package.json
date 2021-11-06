@@ -5,6 +5,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
+    "type-check": "tsc --noEmit",
     "lint": "eslint --ext .ts --ext .tsx --ignore-pattern *.test.* src/",
     "lint-fix": "eslint --ext .ts --ext .tsx --ignore-pattern *.test.* src/ --fix"
   },

@@ -21,30 +21,36 @@ import {
   searchSchoolDistricts,
   searchSchools,
   NCESDistrictFeatureAttributes,
-  NCESSchoolFeatureAttributes,
+  NCESSchoolFeatureAttributes, getSearchSchoolDistrictsURL, SearchSchoolDistrictsResponse,
 } from '@utils/nces';
+import {useFetch} from "../hooks/useFetch";
 
 const Home: React.FC = () => {
-  const [searching, setSearching] = React.useState(false);
-  const [districtSearch, setDistrictSearch] = React.useState<NCESDistrictFeatureAttributes[]>([]);
-  const [schoolSearch, setSchoolSearch] = React.useState<NCESSchoolFeatureAttributes[]>([]);
+  // const [searching, setSearching] = React.useState(false);
+  // const [districtSearch, setDistrictSearch] = React.useState<NCESDistrictFeatureAttributes[]>([]);
+  // const [schoolSearch, setSchoolSearch] = React.useState<NCESSchoolFeatureAttributes[]>([]);
+  //
+  // const demo = async () => {
+  //   // see console for api result examples
+  //   setSearching(true);
+  //   const demoDistrictSearch = await searchSchoolDistricts('Peninsula School District');
+  //   setDistrictSearch(demoDistrictSearch);
+  //   console.log('District example', demoDistrictSearch);
+  //
+  //   const demoSchoolSearch = await searchSchools('k', demoDistrictSearch[1].LEAID);
+  //   setSchoolSearch(demoSchoolSearch);
+  //   console.log('School Example', demoSchoolSearch);
+  //   setSearching(false);
+  // };
+  //
+  // useEffect(() => {
+  //   demo();
+  // }, []);
 
-  const demo = async () => {
-    // see console for api result examples
-    setSearching(true);
-    const demoDistrictSearch = await searchSchoolDistricts('Peninsula School District');
-    setDistrictSearch(demoDistrictSearch);
-    console.log('District example', demoDistrictSearch);
+  const { loading, error, data } = useFetch<SearchSchoolDistrictsResponse>(getSearchSchoolDistrictsURL('Peninsula School District'))
 
-    const demoSchoolSearch = await searchSchools('k', demoDistrictSearch[1].LEAID);
-    setSchoolSearch(demoSchoolSearch);
-    console.log('School Example', demoSchoolSearch);
-    setSearching(false);
-  };
-
-  useEffect(() => {
-    demo();
-  }, []);
+  const districts = data?.features.map(feature => feature.attributes);
+  console.log('District example', districts)
 
   return (
     <Center padding="100px" height="90vh">
@@ -68,12 +74,12 @@ const Home: React.FC = () => {
           <Text>
             Check the console for example of returned data. <b>Happy coding!</b>
             <br />
-            {searching ? <Spinner /> : <></>}
+            {loading ? <Spinner /> : <></>}
             <br />
-            {districtSearch.length} Demo Districts
+            {districts?.length} Demo Districts
             <br />
-            {schoolSearch.length} Demo Schools
-            <br />
+            {/*{schoolSearch.length} Demo Schools*/}
+            {/*<br />*/}
           </Text>
         </Card>
       </ScaleFade>
