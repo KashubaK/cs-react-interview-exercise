@@ -2,31 +2,25 @@ import { useParams } from 'react-router-dom';
 import {
   getSchoolDetailsURL,
   getSchoolDistrictDetailsURL,
-  getSearchSchoolsURL,
-  NCESDistrictFeatureAttributes,
-  NCESSchoolFeature,
-  NCESSchoolFeatureAttributes,
+  NCESSchoolDetailFeatureAttributes,
   SchoolDetailResponse,
   SchoolDistrictDetailResponse,
-  SearchSchoolsResponse,
 } from '~utils/nces';
 import { useFetch } from '../../hooks/useFetch';
 import { Page } from '~components/Page/Page';
-import { Box, Button, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { HStack, Text, VStack } from '@chakra-ui/react';
+import React, { useMemo, useState } from 'react';
 import { DataTile } from '~components/DataTile/DataTile';
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { googleMapsKey } from '~utils/maps';
 import { DistrictMap } from '~components/DistrictMap/DistrictMap';
+import { Bar } from 'react-chartjs-2';
+import { ChartData } from 'chart.js';
+import { theme } from '~theme';
 
 export function SchoolDetailPage() {
   const { districtId, schoolId } = useParams();
 
   if (!districtId) throw new Error('Missing districtId param from URL');
   if (!schoolId) throw new Error('Missing schoolId param from URL');
-
-  const [schoolSearch, setSchoolSearch] = useState('');
-  const [searchPrivate, setSearchPrivate] = useState(false);
 
   const {
     loading: loadingDistrict,
@@ -46,7 +40,7 @@ export function SchoolDetailPage() {
   const failedToFindDistrict = !loadingDistrict && !district;
   const failedToFindSchool = !loadingSchool && !school;
 
-  console.log({ schoolData });
+  const chartData = useMemo(() => gradePopulationChartData(), [schoolData]);
 
   return (
     <Page
@@ -67,8 +61,8 @@ export function SchoolDetailPage() {
       )}
 
       {school?.attributes && district?.attributes && (
-        <VStack spacing={3}>
-          <HStack spacing={3}>
+        <VStack spacing={6}>
+          <HStack spacing={6}>
             <DataTile value={`${school.attributes.GSLO}-${school.attributes.GSHI}`} label="Grades" />
             <DataTile value={Math.floor(school.attributes.FTE)} label="Teachers" />
             <DataTile value={Math.floor(school.attributes.TOTAL)} label="Students" />
@@ -80,11 +74,42 @@ export function SchoolDetailPage() {
             <DataTile label="Address" value={schoolAddress()} />
           </VStack>
 
+          {chartData && <Bar data={chartData} style={{ maxHeight: '300px' }} />}
+
           <DistrictMap district={district} schools={[school]} />
         </VStack>
       )}
     </Page>
   );
+
+  function gradePopulationChartData(): ChartData<'bar'> | null {
+    if (!school?.attributes) return null;
+
+    // Get all G01 - G13 keys that have number values
+    const gradeKeys = Object.keys(school.attributes)
+      .filter((key: string) => /G[0-9]+|PK|KG/.test(key))
+      .filter((key) => school.attributes?.[key as keyof NCESSchoolDetailFeatureAttributes] != null);
+
+    return {
+      labels: gradeKeys.map((key) => {
+        if (key == 'PK') return 'Pre-kindergarten';
+        if (key == 'KG') return 'Kindergarten';
+
+        return key.replace('G', 'Grade ');
+      }),
+      datasets: [
+        {
+          label: 'Student count',
+          data: gradeKeys.map((key) => school.attributes?.[key as keyof NCESSchoolDetailFeatureAttributes] as number),
+          backgroundColor: [theme.colors.green['500']],
+          borderColor: [theme.colors.green['500']],
+          borderWidth: 1,
+          barThickness: 50,
+          pointStyle: 'rectRounded',
+        },
+      ],
+    };
+  }
 
   function schoolAddress() {
     if (!school?.attributes) return '';
