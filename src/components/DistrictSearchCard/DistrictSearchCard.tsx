@@ -1,5 +1,5 @@
 import { Card } from '@components/design/Card';
-import { FormControl, FormLabel, Heading, Input, ScaleFade, Spinner, Text } from '@chakra-ui/react';
+import { Center, FormControl, FormLabel, Heading, Input, ScaleFade, Spinner, Text } from '@chakra-ui/react';
 import { DistrictList } from '@components/DistrictList/DistrictList';
 import React, { useMemo, useState } from 'react';
 import { useFetch } from '../../hooks/useFetch';
@@ -33,7 +33,9 @@ export function DistrictSearchCard() {
       </FormControl>
 
       {loading ? (
-        <Spinner />
+        <Center height="80px">
+          <Spinner />
+        </Center>
       ) : (
         <ScaleFade initialScale={0.9} in={!loading}>
           <DistrictList districts={visibleDistricts} />

@@ -24,7 +24,7 @@ export function DistrictMap(props: DistrictMapProps) {
     <>
       {googleMapsReady && district.attributes?.Lat && district.attributes?.Long && (
         <GoogleMap
-          mapContainerStyle={{ width: '100%', height: 400 }}
+          mapContainerStyle={{ width: '100%', height: 400, borderRadius: 10 }}
           center={{ lat: district.attributes.Lat, lng: district.attributes.Long }}
           zoom={10}
         >
