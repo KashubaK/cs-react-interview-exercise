@@ -1,55 +1,37 @@
-# Hello Aspiring Applicant!
+# Hello CharacterStrong team!
 
-This coding exercise is meant to allow you to demonstrate creative problem solving and modern web development understanding. Feel free to stretch the boundaries of the prompt to showcase your personal preferences and skills. 
+I hope you enjoy using this tool I built for the coding challenge. You should find it elegant
+and easy to use! I'm proud of what I've built considering the short timeframe, I'd say I put just about 8 hours into it total.
+My focus was to build something useful, not just something to satisfy requirements. 
 
-- Add any npm modules you may need for best practices
-- Make any changes to this repository as you see fit
-- Use comments to critique and guide code review
+You can access it by going to this link: https://kashubak.github.io/cs-react-interview-exercise/
 
-## [Demo](https://characterstrong.github.io/react-interview-exercise/)
+Features include:
 
-## Overview of this repository
+- District searching
+- Overview of district data including grades offered, student and teacher count, location address and phone number
+- Map of schools within a district
+- The ability to click on a school within a district and view its data
+- Overview of school data including grades offered, student/teacher count, basic location data (with map), and a chart that compares grade population
+- Client-side routing which allows you to copy & paste links to district or school details
 
-- [Vite](https://vitejs.dev/guide/) Typescript React base
-- [Chakra-UI](https://chakra-ui.com/docs/principles) interface styling (feel free to replace with your favorite UI)
-- [Pretty resolver](tsconfig.paths.json), aliased modules for readability: `import Home from "@components/Home"`
-- [Github Actions](.github/workflows/push.yaml) to build and deploy this project to Github Pages (creates `gh-pages` branch)
+Some feature ideas that could make this app more practical:
 
-### Getting Started
+- School searching without having to search for districts first
+- Link schools/districts to CharacterStrong data (i.e. is this district a CS client?)
+- Somehow output a website URL of a resource (i.e. school district website URL)
+- The ability to add notes to a school or district
+- The ability to "share" a school or district resource via email
 
-1. Clone the repository `git clone https://github.com/CharacterStrong/react-interview-exercise`
-2. Install dependencies `cd react-interview-exercise && npm i`
-3. Run local development server `npm run dev`
-4. Navigate to http://localhost:3000
-5. Follow the Prompt
-6. Create a new Github repository, ensure @AshMartian can access
+## Technical notes
 
-## Prompt
-
-The goal of this exercise is to build a prototype utility that gives users ability to search and view school district information from [NCES + ArcGIS apis](https://data-nces.opendata.arcgis.com/datasets/nces::private-school-locations-current/api). See [this dataset and others](https://data-nces.opendata.arcgis.com/datasets/school-district-characteristics-2019-20/explore). The api methods are already [implemented for you in this repository](src/utils/nces.ts), your objective is to create an interactive interface to filter and view the selected data. 
-
-- Push all your changes to Github
-    - Looking for semi-descriptive commit messages
-- Working out of [Home.tsx](/src/components/Home.tsx):
-    - Add the needed React `useEffect` statements for district and school searching
-    - Create the UX around these 2 functions, utilize search inputs, lists, and a view container
-    - District and School selection functionality, display a list, then when selected show more information
-- Please enable Github Pages and Github Actions in your Fork and update the url in your README.md
-    - If your repository is not named `react-interview-exercise` you must update [vite.config.ts](vite.config.ts) "base" path
-
-### Considerations
-
-- If there is a requirement for more components, create them for optimal code readability and performance
-- If something should be dramatically changed in the setup or organization of this repository, do so or document your perspective
-- Most importantly, have fun! Express your passion for web development, we are lifelong learners and should enjoy tackling difficult challenges
-
-## Above and Beyond: Extra Credit
-
-- CharacterStrong is highly design oriented, and aiming to provide students with animated interactive content. Show how you convey this in your UX. Reference https://rc.characterstrong.com for a glimpse into future design considerations.
-- There are issues with this repository, if you see something you don't like, add a comment/fix them!
-- Could you display school(s) on a [Google Map](https://tomchentw.github.io/react-google-maps/#introduction)? (API Key in [maps.ts](src/utils/maps.ts))
-- Are there any other [NCES APIs](https://data-nces.opendata.arcgis.com/search?tags=nces) that might be useful for this tool?
-
-## What Happens Next?
-
-CharacterStrong tech team will review your Github Fork, share the built interface with interested colleagues, and reach out to you so we can review your submission and ask questions.
+- Added `eslint` into the project with my opinionated ruleset to enforce code style.
+- Added some scripts into `package.json` to make linting and type-checking easier
+- Implemented client-side routing with `react-router`, routes include district search, district detail view and school detail view
+- Implemented re-used components `Page`, `DataTile`, and `DistrictMap` used throughout the app
+- Implemented custom `useFetch` hook to simplify HTTP request logic in component source
+- Used `@react-google-maps/api` library to display maps of schools within a district
+- Implemented grade population chart with `chart.js` and `react-chartjs-2`
+- Used two other NCES APIs, namely the `Public School Characteristics` and `School District Characteristics` to get more details on each model
+- Added new `Glob` usage to render some blue blobs at the bottom-right of the screen
+- Moved `Glob` rendering from `Header` to a new `Globs` component which is rendered by `App`
