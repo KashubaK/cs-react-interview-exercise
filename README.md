@@ -35,3 +35,22 @@ Some feature ideas that could make this app more practical:
 - Used two other NCES APIs, namely the `Public School Characteristics` and `School District Characteristics` to get more details on each model
 - Added new `Glob` usage to render some blue blobs at the bottom-right of the screen
 - Moved `Glob` rendering from `Header` to a new `Globs` component which is rendered by `App`
+- Simplified `tsconfig` `compilerOptions.paths` option to use a single alias `~` to the `src/` directory
+
+## Dear engineer(s),
+
+Expect clean and concise code. My code design philosophy focuses on a single idea:
+
+> A thing's complexity is composed of its responsibilities. 
+
+Complexity can be reduced by separating logic, reducing the responsibilities of the original "thing".
+For example, I thought that the handling of fetch requests from the component source using `useEffect` hooks pollutes the responsibilities of that component.
+The component shouldn't care about when a request is `loading` or not, just simply if it _is_ loading or not.
+
+My solution was to implement a `useFetch` hook, delegating a lot of request lifecycle handling to a separate module. This makes the 
+component source a lot cleaner so that it can focus on its core responsibilities: rendering a view and handling user input.
+
+There is something to be said about over-abstraction. It isn't always about reducing the
+amount of lines-of-code in a given thing, but rather what it is exactly a thing needs to do. Think of each component
+as an "employee" of a business. There are certain things that employee should and shouldn't do, and if there are
+things that it does that it _shouldn't_, then those responsibilities should be delegated elsewhere (i.e. hiring a new role.)
