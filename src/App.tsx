@@ -20,7 +20,7 @@ function App() {
         paddingTop={20}
         paddingBottom={20}
       >
-        <BrowserRouter>
+        <BrowserRouter basename="/cs-react-interview-exercise">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/districts/:districtId" element={<DistrictDetailPage />} />
