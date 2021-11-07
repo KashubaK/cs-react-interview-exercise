@@ -38,7 +38,13 @@ export function DistrictSearchCard() {
         </Center>
       ) : (
         <ScaleFade initialScale={0.9} in={!loading}>
-          <DistrictList districts={visibleDistricts} />
+          {districts.length > 0 ? (
+            <DistrictList districts={visibleDistricts} />
+          ) : (
+            <Center height="80px">
+              <Text>No results found.</Text>
+            </Center>
+          )}
 
           {districts.length > MAX_VISIBLE_DISTRICTS && (
             <Text marginTop={4}>
