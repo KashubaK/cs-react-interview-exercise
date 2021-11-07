@@ -1,4 +1,4 @@
-import { Box, Center, Container, Flex, Icon, ScaleFade, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Center, Container, ScaleFade, Spinner, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 
@@ -13,7 +13,7 @@ export type PageProps = {
   loading?: boolean;
 };
 
-export function Page(props: PageProps) {
+export function Page(props: PageProps): React.ReactElement {
   const { breadcrumb, loading, title, children } = props;
 
   return (

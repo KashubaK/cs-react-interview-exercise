@@ -15,6 +15,7 @@ export function DistrictList(props: DistrictListProps): React.ReactElement {
     <Box width="100%" borderWidth={1} borderRadius="xl" overflow="hidden">
       {districts.map((district) => (
         <Box
+          key={district.LEAID}
           borderBottomWidth={1}
           p={4}
           _last={{ borderBottomWidth: 0 }}

@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react';
 import Glob from '~components/design/Glob';
-import { theme } from '~theme/index';
+import { theme } from '~theme';
 import React from 'react';
 
-export function Globs() {
+export function Globs(): React.ReactElement {
   return (
     <Box overflow="hidden" className="globParent" position="absolute" width="100vw" height="100%" minHeight="100vh">
       <Glob

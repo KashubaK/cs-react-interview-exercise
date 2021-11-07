@@ -2,39 +2,27 @@ import { useParams } from 'react-router-dom';
 import {
   getSchoolDistrictDetailsURL,
   getSearchSchoolsURL,
-  NCESDistrictFeatureAttributes,
-  NCESSchoolFeature,
-  NCESSchoolFeatureAttributes,
   SchoolDistrictDetailResponse,
   SearchSchoolsResponse,
 } from '~utils/nces';
-import { useFetch } from '../../hooks/useFetch';
+import { useFetch } from '~hooks/useFetch';
 import { Page } from '~components/Page/Page';
-import { Box, Button, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { HStack, Text, VStack } from '@chakra-ui/react';
+import React from 'react';
 import { DataTile } from '~components/DataTile/DataTile';
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { googleMapsKey } from '~utils/maps';
 import { DistrictMap } from '~components/DistrictMap/DistrictMap';
 
-export function DistrictDetailPage() {
+export function DistrictDetailPage(): React.ReactElement {
   const { districtId } = useParams();
   if (!districtId) throw new Error('Missing districtId param from URL');
 
-  const [schoolSearch, setSchoolSearch] = useState('');
-  const [searchPrivate, setSearchPrivate] = useState(false);
+  const { loading: loadingDistrict, data: districtData } = useFetch<SchoolDistrictDetailResponse>(
+    getSchoolDistrictDetailsURL(districtId),
+  );
 
-  const {
-    loading: loadingDistrict,
-    error: districtError,
-    data: districtData,
-  } = useFetch<SchoolDistrictDetailResponse>(getSchoolDistrictDetailsURL(districtId));
-
-  const {
-    loading: loadingSchools,
-    error: schoolsError,
-    data: schoolsData,
-  } = useFetch<SearchSchoolsResponse>(getSearchSchoolsURL(schoolSearch, districtId, { searchPrivate }));
+  const { loading: loadingSchools, data: schoolsData } = useFetch<SearchSchoolsResponse>(
+    getSearchSchoolsURL('', districtId, { searchPrivate: false }),
+  );
 
   const district = districtData?.features?.[0];
   const failedToFindDistrict = !loadingDistrict && !district;

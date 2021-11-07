@@ -64,7 +64,7 @@ export function useFetch<ResponseType>(url: string, opts: UseFetchOpts = {}): Us
     } else {
       makeRequest();
     }
-  }, [url, method]);
+  }, [url, debounce]);
 
   useEffect(() => {
     // Don't automatically dispatch the request if the consumer wants to call it by themself

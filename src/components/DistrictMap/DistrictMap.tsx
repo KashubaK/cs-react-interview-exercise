@@ -1,5 +1,5 @@
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { Box, Button, Text, VStack } from '@chakra-ui/react';
+import { Button, Text, VStack } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { googleMapsKey } from '~utils/maps';
 import { NCESDistrictDetailFeature, NCESSchoolDetailFeature, NCESSchoolFeature } from '~utils/nces';
@@ -18,7 +18,7 @@ type School = {
   id: string;
 };
 
-export function DistrictMap(props: DistrictMapProps) {
+export function DistrictMap(props: DistrictMapProps): React.ReactElement {
   const { district, schools } = props;
 
   const [focusedSchool, setFocusedSchool] = useState<null | School>(null);

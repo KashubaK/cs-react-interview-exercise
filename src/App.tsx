@@ -1,12 +1,12 @@
 import Header, { HEADER_HEIGHT } from '~components/Header';
 import Home from '~components/Home';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { DistrictDetailPage } from './pages/DistrictDetailPage/DistrictDetailPage';
-import { Center, Container } from '@chakra-ui/react';
+import { DistrictDetailPage } from '~pages/DistrictDetailPage/DistrictDetailPage';
+import { Container } from '@chakra-ui/react';
 import { Globs } from '~components/Globs/Globs';
 import { SchoolDetailPage } from '~pages/SchoolDetailPage/SchoolDetailPage';
 
-function App() {
+function App(): React.ReactElement {
   return (
     <div className="App">
       <Header />

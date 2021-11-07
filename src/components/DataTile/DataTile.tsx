@@ -1,4 +1,4 @@
-import { Box, Stack, Text, VStack } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 
 type DataTileProps = {
   value: React.ReactNode;
@@ -6,7 +6,7 @@ type DataTileProps = {
   afterValue?: React.ReactNode;
 };
 
-export function DataTile(props: DataTileProps) {
+export function DataTile(props: DataTileProps): React.ReactElement {
   return (
     <Stack borderWidth={1} borderRadius="xl" minWidth="90px" p={4} align="center" backgroundColor="white" flexGrow={1}>
       <Text fontWeight="medium" fontSize={22}>

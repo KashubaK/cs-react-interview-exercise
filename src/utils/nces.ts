@@ -223,7 +223,15 @@ export function getSchoolDistrictDetailsURL(districtId: string): string {
   )}&outFields=*&outSR=4326&f=json`;
 }
 
-export function getSearchSchoolsURL(schoolName: string, districtId: string, { searchPrivate = false }): string {
+export type GetSearchSchoolsURLOpts = {
+  searchPrivate?: boolean;
+};
+
+export function getSearchSchoolsURL(
+  schoolName: string,
+  districtId: string,
+  { searchPrivate = false }: GetSearchSchoolsURLOpts,
+): string {
   let query = `UPPER(NAME) LIKE UPPER('%${schoolName}%')`;
 
   if (districtId != null) {
@@ -236,54 +244,9 @@ export function getSearchSchoolsURL(schoolName: string, districtId: string, { se
 }
 
 export function getSchoolDetailsURL(districtId: string, schoolId: string): string {
-  //https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_ADMINDATA_PUBLICSCH_1920/MapServer/0/query?outFields=*&where=1%3D1
-
   const query = `LEAID = '${districtId}' AND NCESSCH = '${schoolId}'`;
 
   return `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_ADMINDATA_PUBLICSCH_1920/MapServer/0/query?outFields=*&where=${encodeURIComponent(
     query,
   )}&f=json`;
 }
-
-const searchSchoolDistricts = async (name: string): Promise<NCESDistrictFeatureAttributes[]> => {
-  const publicSchoolEndpoint = `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICLEA_1516/MapServer/0/query?where=UPPER(NAME) LIKE UPPER('%${name}%')&outFields=*&outSR=4326&f=json`;
-  let combinedData = [];
-  const publicResponse = await (await fetch(publicSchoolEndpoint)).json();
-
-  combinedData = [
-    ...(publicResponse.features
-      ? publicResponse.features.map((feature: NCESDistrictFeature) => {
-          return feature.attributes;
-        })
-      : []),
-  ];
-  return combinedData;
-};
-
-const searchSchools = async (name: string, district?: string): Promise<NCESSchoolFeatureAttributes[]> => {
-  const privateSchoolEndpoint = `https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Private_School_Locations_Current/FeatureServer/0/query?where=UPPER(NAME) LIKE UPPER('%${name}%')${
-    district ? `%20AND%20LEAID%20%3D%20'${district}'` : ''
-  }&outFields=*&outSR=4326&f=json`;
-  const publicSchoolEndpoint = `https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer/0/query?where=UPPER(NAME) LIKE UPPER('%${name}%')${
-    district ? `%20AND%20LEAID%20%3D%20'${district}'` : ''
-  }&outFields=*&outSR=4326&f=json`;
-  let combinedData = [];
-  const privateResponse = await (await fetch(privateSchoolEndpoint)).json();
-  const publicResponse = await (await fetch(publicSchoolEndpoint)).json();
-
-  combinedData = [
-    ...(privateResponse.features
-      ? privateResponse.features.map((feature: NCESSchoolFeature) => {
-          return feature.attributes;
-        })
-      : []),
-    ...(publicResponse.features
-      ? publicResponse.features.map((feature: NCESSchoolFeature) => {
-          return feature.attributes;
-        })
-      : []),
-  ];
-  return combinedData;
-};
-
-export { searchSchoolDistricts, searchSchools };
