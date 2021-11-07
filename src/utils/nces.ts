@@ -23,6 +23,94 @@ export interface NCESSchoolFeature {
   };
 }
 
+export interface NCESSchoolDetailFeatureAttributes {
+  AE: null;
+  AM: number;
+  AMALF: number;
+  AMALM: number;
+  AS: number;
+  ASALF: number;
+  ASALM: number;
+  BL: number;
+  BLALF: number;
+  BLALM: number;
+  CHARTER_TEXT: string;
+  FRELCH: number;
+  FTE: number;
+  G01: number;
+  G02: number;
+  G03: number;
+  G04: number;
+  G05: number;
+  G06: number;
+  G07: number;
+  G08: number;
+  G09: number;
+  G10: number;
+  G11: number;
+  G12: number;
+  G13: number;
+  GSHI: string;
+  GSLO: string;
+  HI: number;
+  HIALF: number;
+  HIALM: number;
+  HP: number;
+  HPALF: number;
+  HPALM: number;
+  KG: number;
+  LATCOD: number;
+  LCITY: string;
+  LEAID: string;
+  LEA_NAME: string;
+  LONCOD: number;
+  LSTATE: string;
+  LSTREET1: string;
+  LSTREET2: string;
+  LZIP: string;
+  LZIP4: string;
+  MAGNET_TEXT: string;
+  MEMBER: number;
+  NCESSCH: string;
+  NMCNTY: string;
+  OBJECTID: number;
+  PHONE: string;
+  PK: number;
+  REDLCH: number;
+  SCHOOL_LEVEL: string;
+  SCHOOL_TYPE_TEXT: string;
+  SCH_NAME: string;
+  STABR: string;
+  STATUS: string;
+  STITLEI: string;
+  STUTERATIO: number;
+  ST_LEAID: string;
+  SURVYEAR: string;
+  SY_STATUS_TEXT: string;
+  TITLEI: string;
+  TOTAL: number;
+  TOTFENROL: number;
+  TOTFRL: number;
+  TOTMENROL: number;
+  TR: number;
+  TRALF: number;
+  TRALM: number;
+  UG: null;
+  ULOCALE: string;
+  VIRTUAL: string;
+  WH: number;
+  WHALF: number;
+  WHALM: number;
+}
+
+export interface NCESSchoolDetailFeature {
+  attributes?: NCESSchoolDetailFeatureAttributes;
+  geometry?: {
+    x: number;
+    y: number;
+  };
+}
+
 export interface NCESDistrictFeatureAttributes {
   OBJECTID: number;
   LEAID: string;
@@ -58,7 +146,7 @@ export interface NCESDistrictFeature {
   };
 }
 
-interface NCESDistrictDetailAttributes {
+export interface NCESDistrictDetailAttributes {
   COID: string;
   CONAME: string;
   GSHI: string;
@@ -115,6 +203,10 @@ export type SchoolDistrictDetailResponse = {
   features: NCESDistrictDetailFeature[];
 };
 
+export type SchoolDetailResponse = {
+  features: NCESSchoolDetailFeature[];
+};
+
 export function getSearchSchoolDistrictsURL(districtName: string): string {
   const query = `UPPER(NAME) LIKE UPPER('%${districtName}%')`;
 
@@ -141,6 +233,16 @@ export function getSearchSchoolsURL(schoolName: string, districtId: string, { se
   return `https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/${
     searchPrivate ? 'Private_School_Locations_Current' : 'Public_School_Location_201819'
   }/FeatureServer/0/query?where=${encodeURIComponent(query)}&outFields=*&outSR=4326&f=json`;
+}
+
+export function getSchoolDetailsURL(districtId: string, schoolId: string): string {
+  //https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_ADMINDATA_PUBLICSCH_1920/MapServer/0/query?outFields=*&where=1%3D1
+
+  const query = `LEAID = '${districtId}' AND NCESSCH = '${schoolId}'`;
+
+  return `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_ADMINDATA_PUBLICSCH_1920/MapServer/0/query?outFields=*&where=${encodeURIComponent(
+    query,
+  )}&f=json`;
 }
 
 const searchSchoolDistricts = async (name: string): Promise<NCESDistrictFeatureAttributes[]> => {

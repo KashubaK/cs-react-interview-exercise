@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { DistrictDetailPage } from './pages/DistrictDetailPage/DistrictDetailPage';
 import { Center, Container } from '@chakra-ui/react';
 import { Globs } from '~components/Globs/Globs';
+import { SchoolDetailPage } from '~pages/SchoolDetailPage/SchoolDetailPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/districts/:districtId" element={<DistrictDetailPage />} />
+            <Route path="/districts/:districtId/schools/:schoolId" element={<SchoolDetailPage />} />
           </Routes>
         </BrowserRouter>
       </Container>
