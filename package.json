@@ -10,10 +10,14 @@
     "lint-fix": "eslint --ext .ts --ext .tsx --ignore-pattern *.test.* src/ --fix"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.17",
     "@chakra-ui/react": "^1.6.10",
+    "@react-google-maps/api": "^2.5.0",
     "path": "^0.12.7",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-router": "^6.0.1",
+    "react-router-dom": "^6.0.1",
     "sass": "^1.43.4",
     "vite-tsconfig-paths": "^3.3.17"
   },

@@ -58,12 +58,89 @@ interface NCESDistrictFeature {
   };
 }
 
-export type SearchSchoolDistrictsResponse = {
-  features: NCESDistrictFeature[];
+interface NCESDistrictDetailAttributes {
+  COID: string;
+  CONAME: string;
+  GSHI: string;
+  GSLO: string;
+  LCITY: string;
+  LEAID: string;
+  LEA_NAME: string;
+  LEA_TYPE: number;
+  LEA_TYPE_TEXT: string;
+  LOCALE: string;
+  LOCALE_TEXT: string;
+  LSTATE: string;
+  LSTREET1: string;
+  LSTREET2: string;
+  LZIP: string;
+  LZIP4: string;
+  Lat: number;
+  Long: number;
+  MEMBER: number;
+  OBJECTID: number;
+  PHONE: string;
+  /**
+   * Number of schools within the district
+   */
+  SCH: number;
+  STABR: string;
+  STATENAME: string;
+  STUTERATIO: number;
+  ST_LEAID: string;
+  SURVYEAR: string;
+  SY_STATUS_TEXT: string;
+  Shape_Area: number;
+  Shape_Length: number;
+  TOTTCH: number;
 }
 
+interface NCESDistrictDetailFeature {
+  attributes?: NCESDistrictDetailAttributes;
+  geometry?: {
+    x: number;
+    y: number;
+  };
+}
+
+export type SearchSchoolDistrictsResponse = {
+  features: NCESDistrictFeature[];
+};
+
+export type SearchSchoolsResponse = {
+  features: NCESSchoolFeature[];
+};
+
+export type SchoolDistrictDetailResponse = {
+  features: NCESDistrictDetailFeature[];
+};
+
 export function getSearchSchoolDistrictsURL(districtName: string): string {
-  return `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICLEA_1516/MapServer/0/query?where=UPPER(NAME) LIKE UPPER('%${districtName}%')&outFields=*&outSR=4326&f=json`;
+  const query = `UPPER(NAME) LIKE UPPER('%${districtName}%')`;
+
+  return `https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICLEA_1516/MapServer/0/query?where=${encodeURIComponent(
+    query,
+  )}&outFields=*&outSR=4326&f=json`;
+}
+
+export function getSchoolDistrictDetailsURL(districtId: string): string {
+  const query = `LEAID = '${districtId}'`;
+
+  return `https://nces.ed.gov/opengis/rest/services/School_District_Boundaries/EDGE_ADMINDATA_SCHOOLDISTRICTS_SY1920/MapServer/0/query?where=${encodeURIComponent(
+    query,
+  )}&outFields=*&outSR=4326&f=json`;
+}
+
+export function getSearchSchoolsURL(schoolName: string, districtId: string, { searchPrivate = false }): string {
+  let query = `UPPER(NAME) LIKE UPPER('%${schoolName}%')`;
+
+  if (districtId != null) {
+    query += ` AND LEAID = '${districtId}'`;
+  }
+
+  return `https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/${
+    searchPrivate ? 'Private_School_Locations_Current' : 'Public_School_Location_201819'
+  }/FeatureServer/0/query?where=${encodeURIComponent(query)}&outFields=*&outSR=4326&f=json`;
 }
 
 const searchSchoolDistricts = async (name: string): Promise<NCESDistrictFeatureAttributes[]> => {
