@@ -14,7 +14,7 @@ export type PageProps = {
 };
 
 export function Page(props: PageProps) {
-  const { breadcrumb, title, loading, children } = props;
+  const { breadcrumb, loading, title, children } = props;
 
   return (
     <ScaleFade initialScale={0.9} in>
@@ -29,21 +29,26 @@ export function Page(props: PageProps) {
       >
         {loading && (
           <Center>
-            <Spinner />
+            <Spinner size="xl" />
           </Center>
         )}
-        <ScaleFade initialScale={0.9} in={!loading}>
-          {breadcrumb && (
-            <Text as={Link} to={breadcrumb.to} display="flex" align="center">
-              <ChevronLeftIcon fontSize="1.5em" marginLeft="-6px" />
-              {breadcrumb.content}
-            </Text>
-          )}
-          <Text fontSize="3xl" fontWeight="bold" marginBottom={6}>
-            {title}
-          </Text>
 
-          {children}
+        <ScaleFade initialScale={0.9} in={!loading}>
+          {!loading && (
+            <>
+              {breadcrumb && (
+                <Text as={Link} to={breadcrumb.to} display="flex" align="center">
+                  <ChevronLeftIcon fontSize="1.5em" marginLeft="-6px" />
+                  {breadcrumb.content}
+                </Text>
+              )}
+              <Text fontSize="3xl" fontWeight="bold" marginBottom={6}>
+                {title}
+              </Text>
+
+              {children}
+            </>
+          )}
         </ScaleFade>
       </Container>
     </ScaleFade>

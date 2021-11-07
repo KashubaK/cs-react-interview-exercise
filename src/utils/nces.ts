@@ -15,7 +15,7 @@ export interface NCESSchoolFeatureAttributes {
   LON?: number;
 }
 
-interface NCESSchoolFeature {
+export interface NCESSchoolFeature {
   attributes?: NCESSchoolFeatureAttributes;
   geometry?: {
     x: number;
@@ -50,7 +50,7 @@ export interface NCESDistrictFeatureAttributes {
   SLDU15: string;
 }
 
-interface NCESDistrictFeature {
+export interface NCESDistrictFeature {
   attributes?: NCESDistrictFeatureAttributes;
   geometry?: {
     x: number;
@@ -95,7 +95,7 @@ interface NCESDistrictDetailAttributes {
   TOTTCH: number;
 }
 
-interface NCESDistrictDetailFeature {
+export interface NCESDistrictDetailFeature {
   attributes?: NCESDistrictDetailAttributes;
   geometry?: {
     x: number;

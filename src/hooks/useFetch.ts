@@ -30,13 +30,19 @@ export function useFetch<ResponseType>(url: string, opts: UseFetchOpts = {}): Us
   const [loading, setLoading] = useState(!lazy);
 
   const debounceTimeoutRef = useRef<number | null>(null);
+  const abortControllerRef = useRef(new AbortController());
 
   const dispatch = useCallback(async () => {
     const makeRequest = async () => {
       setError(null);
       setLoading(true);
 
-      const response = await fetch(url);
+      // If there's a pending earlier request, abort it
+      abortControllerRef.current.abort();
+
+      abortControllerRef.current = new AbortController();
+
+      const response = await fetch(url, { signal: abortControllerRef.current.signal });
 
       setLoading(false);
 

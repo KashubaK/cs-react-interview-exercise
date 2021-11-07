@@ -2,14 +2,20 @@ import { useParams } from 'react-router-dom';
 import {
   getSchoolDistrictDetailsURL,
   getSearchSchoolsURL,
+  NCESDistrictFeatureAttributes,
+  NCESSchoolFeature,
+  NCESSchoolFeatureAttributes,
   SchoolDistrictDetailResponse,
   SearchSchoolsResponse,
 } from '@utils/nces';
 import { useFetch } from '../../hooks/useFetch';
 import { Page } from '@components/Page/Page';
 import { Box, Button, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataTile } from '@components/DataTile/DataTile';
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { googleMapsKey } from '@utils/maps';
+import { DistrictMap } from '@components/DistrictMap/DistrictMap';
 
 export function DistrictDetailPage() {
   const { districtId } = useParams();
@@ -33,8 +39,6 @@ export function DistrictDetailPage() {
   const district = districtData?.features?.[0];
   const failedToFindDistrict = !loadingDistrict && !district;
 
-  console.log(district?.attributes?.SCH);
-
   return (
     <Page
       loading={loadingDistrict || loadingSchools}
@@ -47,20 +51,22 @@ export function DistrictDetailPage() {
         </Text>
       )}
 
-      {district && (
+      {district?.attributes && (
         <VStack spacing={6}>
           <HStack spacing={6} justify="stretch" width="100%">
-            <DataTile label="Grades" value={`${district.attributes?.GSLO}-${district.attributes?.GSHI}`} />
-            <DataTile label="Schools" value={district.attributes?.SCH} />
-            <DataTile label="Teachers" value={Math.floor(district.attributes?.TOTTCH || 0).toLocaleString()} />
-            <DataTile label="Students" value={Math.floor(district.attributes?.MEMBER || 0).toLocaleString()} />
-            <DataTile label="Students per Teacher" value={district.attributes?.STUTERATIO?.toLocaleString()} />
+            <DataTile label="Grades" value={`${district.attributes.GSLO}-${district.attributes.GSHI}`} />
+            <DataTile label="Schools" value={district.attributes.SCH} />
+            <DataTile label="Teachers" value={Math.floor(district.attributes.TOTTCH).toLocaleString()} />
+            <DataTile label="Students" value={Math.floor(district.attributes.MEMBER).toLocaleString()} />
+            <DataTile label="Students per Teacher" value={district.attributes.STUTERATIO.toLocaleString()} />
           </HStack>
 
           <VStack spacing={6} alignItems="stretch">
-            <DataTile label="Phone" value={district.attributes?.PHONE} />
+            <DataTile label="Phone" value={district.attributes.PHONE} />
             <DataTile label="Address" value={districtAddress()} />
           </VStack>
+
+          {schoolsData?.features && <DistrictMap district={district} schools={schoolsData?.features} />}
         </VStack>
       )}
     </Page>

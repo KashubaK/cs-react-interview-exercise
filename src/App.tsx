@@ -9,15 +9,21 @@ function App() {
     <div className="App">
       <Header />
 
-      <Container width="4xl" maxWidth="100%" zIndex={1}>
-        <Center width="4xl" height="90vh" maxWidth="100%">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/districts/:districtId" element={<DistrictDetailPage />} />
-            </Routes>
-          </BrowserRouter>
-        </Center>
+      <Container
+        width="4xl"
+        maxWidth="100%"
+        zIndex={1}
+        marginTop={HEADER_HEIGHT}
+        minHeight={`calc(100vh - ${HEADER_HEIGHT})`}
+        paddingTop={20}
+        paddingBottom={20}
+      >
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/districts/:districtId" element={<DistrictDetailPage />} />
+          </Routes>
+        </BrowserRouter>
       </Container>
     </div>
   );

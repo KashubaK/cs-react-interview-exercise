@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, BoxProps, useStyleConfig} from '@chakra-ui/react';
+import { Box, BoxProps, useStyleConfig } from '@chakra-ui/react';
 
 export const CardTheme = {
   // The styles all Cards have in common
@@ -15,7 +15,6 @@ export const CardTheme = {
       padding: 8,
       borderRadius: '40px',
       boxShadow: 'xl',
-      border: '2px solid',
     },
     smooth: {
       padding: 6,
