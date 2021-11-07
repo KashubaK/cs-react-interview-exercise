@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
-import { CardTheme } from '@components/design/Card';
-import * as overrides from '@theme/override';
+import { CardTheme } from '~components/design/Card';
+import * as overrides from '~theme/override';
 
 const colors = {
   brand: {

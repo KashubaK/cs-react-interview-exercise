@@ -7,15 +7,15 @@ import {
   NCESSchoolFeatureAttributes,
   SchoolDistrictDetailResponse,
   SearchSchoolsResponse,
-} from '@utils/nces';
+} from '~utils/nces';
 import { useFetch } from '../../hooks/useFetch';
-import { Page } from '@components/Page/Page';
+import { Page } from '~components/Page/Page';
 import { Box, Button, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { DataTile } from '@components/DataTile/DataTile';
+import { DataTile } from '~components/DataTile/DataTile';
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { googleMapsKey } from '@utils/maps';
-import { DistrictMap } from '@components/DistrictMap/DistrictMap';
+import { googleMapsKey } from '~utils/maps';
+import { DistrictMap } from '~components/DistrictMap/DistrictMap';
 
 export function DistrictDetailPage() {
   const { districtId } = useParams();

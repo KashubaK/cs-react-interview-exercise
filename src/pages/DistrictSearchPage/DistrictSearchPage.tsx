@@ -1,15 +1,15 @@
-import { Card } from '@components/design/Card';
+import { Card } from '~components/design/Card';
 import { Center, FormControl, FormLabel, Heading, Input, ScaleFade, Spinner, Text } from '@chakra-ui/react';
-import { DistrictList } from '@components/DistrictList/DistrictList';
+import { DistrictList } from '~components/DistrictList/DistrictList';
 import React, { useMemo, useState } from 'react';
 import { useFetch } from '../../hooks/useFetch';
-import { getSearchSchoolDistrictsURL, NCESDistrictFeatureAttributes, SearchSchoolDistrictsResponse } from '@utils/nces';
-import { Page } from '@components/Page/Page';
+import { getSearchSchoolDistrictsURL, NCESDistrictFeatureAttributes, SearchSchoolDistrictsResponse } from '~utils/nces';
+import { Page } from '~components/Page/Page';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 const MAX_VISIBLE_DISTRICTS = 10;
 
-export function DistrictSearchCard() {
+export function DistrictSearchPage() {
   const [districtName, setDistrictName] = useState('Peninsula School District');
   const { loading, error, data } = useFetch<SearchSchoolDistrictsResponse>(getSearchSchoolDistrictsURL(districtName), {
     debounce: 300,

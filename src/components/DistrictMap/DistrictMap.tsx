@@ -1,8 +1,8 @@
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Box, Button, Text, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { googleMapsKey } from '@utils/maps';
-import { NCESDistrictDetailFeature, NCESSchoolFeature } from '@utils/nces';
+import { googleMapsKey } from '~utils/maps';
+import { NCESDistrictDetailFeature, NCESSchoolFeature } from '~utils/nces';
 import { Link } from 'react-router-dom';
 
 export type DistrictMapProps = {

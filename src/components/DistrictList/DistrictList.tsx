@@ -1,10 +1,10 @@
-import {Box, Text} from "@chakra-ui/react";
-import {NCESDistrictFeatureAttributes} from "@utils/nces";
-import {useNavigate} from "react-router-dom";
+import { Box, Text } from '@chakra-ui/react';
+import { NCESDistrictFeatureAttributes } from '~utils/nces';
+import { useNavigate } from 'react-router-dom';
 
 type DistrictListProps = {
   districts: NCESDistrictFeatureAttributes[];
-}
+};
 
 export function DistrictList(props: DistrictListProps): React.ReactElement {
   const { districts } = props;
@@ -13,7 +13,7 @@ export function DistrictList(props: DistrictListProps): React.ReactElement {
 
   return (
     <Box width="100%" borderWidth={1} borderRadius="xl" overflow="hidden">
-      {districts.map(district => (
+      {districts.map((district) => (
         <Box
           borderBottomWidth={1}
           p={4}
@@ -25,5 +25,5 @@ export function DistrictList(props: DistrictListProps): React.ReactElement {
         </Box>
       ))}
     </Box>
-  )
+  );
 }

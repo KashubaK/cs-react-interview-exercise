@@ -1,16 +1,13 @@
 import React from 'react';
-import {
-  Center,
-  ScaleFade,
-} from '@chakra-ui/react';
-import { DistrictSearchCard } from "@components/DistrictSearchCard/DistrictSearchCard";
+import { Center, ScaleFade } from '@chakra-ui/react';
+import { DistrictSearchPage } from '~pages/DistrictSearchPage/DistrictSearchPage';
 
 function Home() {
   return (
     <ScaleFade initialScale={0.9} in={true}>
-      <DistrictSearchCard />
+      <DistrictSearchPage />
     </ScaleFade>
   );
-};
+}
 
 export default Home;

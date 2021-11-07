@@ -1,5 +1,5 @@
 import React from 'react';
-import { theme } from '@theme/index';
+import { theme } from '~theme/index';
 import './Glob.scss';
 
 /**
@@ -131,6 +131,6 @@ function Glob(props: GlobProps): React.ReactElement {
       </svg>
     </>
   );
-};
+}
 
 export default Glob;
