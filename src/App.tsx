@@ -1,6 +1,6 @@
 import Header, { HEADER_HEIGHT } from '~components/Header';
 import Home from '~components/Home';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import { DistrictDetailPage } from '~pages/DistrictDetailPage/DistrictDetailPage';
 import { Container } from '@chakra-ui/react';
 import { Globs } from '~components/Globs/Globs';
@@ -21,13 +21,13 @@ function App(): React.ReactElement {
         paddingTop={20}
         paddingBottom={20}
       >
-        <BrowserRouter basename="/cs-react-interview-exercise">
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/districts/:districtId" element={<DistrictDetailPage />} />
             <Route path="/districts/:districtId/schools/:schoolId" element={<SchoolDetailPage />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </Container>
     </div>
   );
